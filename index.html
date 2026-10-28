@@ -39,7 +39,8 @@ body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--san
 img,svg{max-width:100%; display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:4px}
-.wrap{max-width:1180px; margin:0 auto; padding:0 1.5rem}
+.wrap{max-width:1180px; margin:0 auto; padding-left:1.5rem; padding-right:1.5rem}
+@media (max-width:480px){.wrap{padding-left:1.25rem; padding-right:1.25rem}}
 
 /* header */
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--ground)}
@@ -74,7 +75,7 @@ nav.links a:hover{color:var(--ink)}
 .disclose .wrap{padding-top:.9rem; padding-bottom:.9rem}
 
 /* section heads */
-section.block{padding:5rem 0 1rem; position:relative}
+section.block{padding-top:5rem; padding-bottom:1rem; position:relative}
 .head{position:relative; margin-bottom:2.5rem}
 .head .ghost{position:absolute; left:-.5rem; top:-3.2rem; font-size:clamp(5rem,13vw,10rem)}
 .head h2{position:relative; font-weight:400; font-size:clamp(1.9rem,3.6vw,2.8rem); letter-spacing:-.025em; line-height:1.1; margin:0; max-width:20ch}
