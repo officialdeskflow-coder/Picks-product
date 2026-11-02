@@ -233,7 +233,7 @@ footer .sig{font-size:2.4rem; color:var(--ink)}
     <div class="head">
       <div class="ghost" aria-hidden="true">stack</div>
       <h2>My go-to list</h2>
-      <p>Start with one product, not all of them. Tap a store you trust — the price and offers change, so check before you pay.</p>
+      <p>Start with one product, not all of them. Tap a store you trust — prices and offers change, so check before you pay. Not buying today? Add it to your cart through the link so it’s saved.</p>
     </div>
     <div class="filters" role="group" aria-label="Filter products">
       <button class="chip" type="button" data-f="all" aria-pressed="true">All</button>
@@ -254,8 +254,8 @@ footer .sig{font-size:2.4rem; color:var(--ink)}
     <div class="where">
       <article>
         <p class="sig">genuine first</p>
-        <h3>Brand website</h3>
-        <p>Stock comes straight from the brand, with authenticity checks. Good when you want zero doubt.</p>
+        <h3>HealthKart</h3>
+        <p>India’s big supplement store, home of MuscleBlaze and HK Vitals. Good offers and stock you can verify with the brand’s authenticity code.</p>
       </article>
       <article>
         <p class="sig">sale days</p>
@@ -326,79 +326,172 @@ const COACH = {
   whatsapp: "" // e.g. "919876543210" (country code + number, no +)
 };
 
+/* Each product: links is a list of buttons { label, url }.
+   Replace each HealthKart url with your affiliate link from the network.
+   Add Amazon links as { label:"Buy on Amazon", url:"..." }. Empty url = button hidden. */
 const PRODUCTS = [
   /* ---------- Protein ---------- */
   {
-    id:"whey", cat:"protein", tag:"Protein", art:"tub", tone:"#5A3B2B",
-    name:"Whey protein", brand:"[Brand & flavour]",
-    why:"Easiest way to reach your daily protein when meals fall short.",
+    id:"biozyme-whey", cat:"protein", tag:"Protein", art:"tub", tone:"#2F2622",
+    name:"Biozyme Performance Whey", brand:"MuscleBlaze · 4.4 lb · Rich Chocolate",
+    why:"My everyday whey pick. Indian brand, widely available, mixes easily and tastes good.",
     who:"Anyone training regularly", use:"1 scoop after workout or with breakfast",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/muscleblaze-biozyme-performance-whey/SP-84971?navKey=VRNT-159123" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"premium-whey", cat:"protein", tag:"Protein", art:"tub", tone:"#5A3B2B",
+    name:"100% Premium Whey Protein", brand:"One Science · 5 lb · Chocolate Charge",
+    why:"Bigger 5 lb pack for members who use whey daily and want it to last longer.",
+    who:"Daily whey users", use:"1 scoop after workout or between meals",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/one-science-100-premium-whey-protein/SP-138717?navKey=VRNT-278743" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"iso-whey", cat:"protein", tag:"Protein", art:"tub", tone:"#8A6B4E",
+    name:"100% Iso Gold Whey Isolate", brand:"One Science · 5 lb · Chocolate Fudge",
+    why:"Isolate has less lactose, fat and carbs than regular whey. Choose it if normal whey upsets your stomach or you’re dieting.",
+    who:"Fat loss, sensitive stomach", use:"1 scoop after workout",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/one-science-100-iso-gold-whey-protein-isolate/SP-89221?navKey=VRNT-279895" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"mass-gainer", cat:"protein", tag:"Protein", art:"tub", tone:"#6B4A35",
+    name:"Muscle Mass Gainer", brand:"Labrada · Chocolate",
+    why:"For skinny members who struggle to eat enough. High calories — not for anyone trying to lose fat. Try the small pack first.",
+    who:"Underweight, hard gainers", use:"As per label, between meals",
+    links:[
+      { label:"HealthKart · 2.2 lb", url:"https://www.healthkart.com/sv/labrada-muscle-mass-gainer/SP-22908?navKey=VRNT-148697" },
+      { label:"HealthKart · 6.61 lb", url:"https://www.healthkart.com/sv/labrada-muscle-mass-gainer/SP-22908?navKey=VRNT-65831" }
+    ]
   },
   /* ---------- Performance ---------- */
   {
-    id:"creatine", cat:"performance", tag:"Performance", art:"jar", tone:"#B9A794",
-    name:"Creatine monohydrate", brand:"[Brand]",
-    why:"The most researched supplement for strength. Plain monohydrate is all you need.",
+    id:"on-creatine", cat:"performance", tag:"Performance", art:"jar", tone:"#2F2622",
+    name:"Micronized Creatine Powder", brand:"ON (Optimum Nutrition) · 0.55 lb · Unflavoured",
+    why:"The most researched supplement for strength. Plain micronised monohydrate mixes easily in water.",
     who:"Strength and muscle goals", use:"3–5 g daily, any time, with water",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/on-optimum-nutrition-micronized-creatine-powder/SP-9573?navKey=VRNT-174782" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   {
-    id:"pre-workout", cat:"performance", tag:"Performance", art:"tubSmall", tone:"#7B4A3A",
-    name:"Pre-workout", brand:"[Brand & flavour]",
-    why:"For tired evenings when energy is low. Start with half a scoop to test caffeine.",
-    who:"Experienced members only", use:"Half to 1 scoop, 20 min before training",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    id:"gnc-creatine", cat:"performance", tag:"Performance", art:"jar", tone:"#8C2F2B",
+    name:"Pro Performance Micronized Creatine", brand:"GNC · 0.55 lb · Unflavoured",
+    why:"Same plain creatine monohydrate from another trusted brand. Pick whichever is cheaper that day.",
+    who:"Strength and muscle goals", use:"3–5 g daily, any time, with water",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/gnc-pro-performance-pure-micronized-creatine-monohydrate/SP-33735?navKey=VRNT-63661" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   {
-    id:"l-carnitine", cat:"performance", tag:"Performance", art:"bottle", tone:"#6F5A4B",
-    name:"L-carnitine", brand:"[Brand]",
+    id:"eaa-energy", cat:"performance", tag:"Pre-workout", art:"tubSmall", tone:"#B0542F",
+    name:"EAA + Energy", brand:"MuscleTech · 0.85 lb · Tropical Twist",
+    why:"My pre-workout pick: amino acids plus caffeine for low-energy evenings. Start with half a scoop and avoid it late at night.",
+    who:"Experienced members", use:"Half to 1 scoop, 20 min before training",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/muscletech-eaa-plus-energy/SP-127685?navKey=VRNT-281483" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"eaa-power", cat:"performance", tag:"Performance", art:"tubSmall", tone:"#6B3E73",
+    name:"EAA Power", brand:"Labrada · 0.66 lb · Grape",
+    why:"Essential amino acids to sip during training. Useful if your daily protein is low; optional if you already hit it.",
+    who:"Low protein intake, long sessions", use:"1 scoop in water during training",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/labrada-eaa-power/SP-100912?navKey=VRNT-227249" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"l-carnitine", cat:"performance", tag:"Performance", art:"bottle", tone:"#C46A2A",
+    name:"L-Carnitine XS 3000 mg Liquid", brand:"Ronnie Coleman · 465 ml · Orange Smash",
     why:"Optional add-on in a fat-loss phase. It only helps alongside a calorie deficit and training — it isn’t a fat burner by itself.",
     who:"Fat-loss phase", use:"As per label, before training",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/ronnie-coleman-l-carnitine-xs-3000-mg-liquid/SP-137629?navKey=VRNT-274791" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   /* ---------- Health ---------- */
   {
     id:"multivitamin", cat:"health", tag:"Health", art:"bottle", tone:"#8E7462",
-    name:"Multivitamin", brand:"[Brand]",
+    name:"Multivitamin with Zinc & Vitamin C", brand:"HealthKart HK Vitals · 60 tablets",
     why:"A simple safety net for busy weeks with a less varied diet.",
     who:"Most adults", use:"1 tablet daily after a meal",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/healthkart-hk-vitals-multivitamin-with-zinc-n-vitamin-c/SP-39873?navKey=VRNT-72769" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   {
     id:"fish-oil", cat:"health", tag:"Health", art:"bottle", tone:"#A5682E",
-    name:"Fish oil (omega-3)", brand:"[Brand]",
-    why:"Helpful if you rarely eat fish. Look for clear EPA + DHA on the label.",
+    name:"Fish Oil 1000 mg", brand:"HealthKart HK Vitals · 180 mg EPA + 120 mg DHA · 60 capsules",
+    why:"Helpful if you rarely eat fish. The label clearly shows EPA and DHA — that’s what to look for.",
     who:"Low fish intake", use:"As per label, with food",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/healthkart-hk-vitals-fish-oil-1000mg-with-180mg-epa-and-120mg-dha/SP-43252?navKey=VRNT-78325" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"zinc", cat:"health", tag:"Health", art:"bottle", tone:"#7D7468",
+    name:"Zinc Complex", brand:"HealthKart HK Vitals · 60 tablets",
+    why:"Supports immunity and recovery when you train hard and sweat a lot. More isn’t better — stick to the label dose.",
+    who:"Heavy training, high sweat", use:"As per label, after a meal",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/healthkart-hk-vitals-zinc-complex/SP-88771?navKey=VRNT-166119" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"zma", cat:"health", tag:"Health", art:"bottle", tone:"#2F2622",
+    name:"ZMA (Zinc Magnesium Aspartate)", brand:"ON (Optimum Nutrition) · 60 capsules",
+    why:"Zinc, magnesium and vitamin B6 together, usually taken at night. Choose this or Zinc Complex, not both.",
+    who:"Hard training, poor sleep", use:"As per label, at bedtime on an empty stomach",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/on-optimum-nutrition-zinc-magnesium-aspartate-zma/SP-130001?navKey=VRNT-252395" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"dht-biotin", cat:"health", tag:"Health", art:"bottle", tone:"#9C7B6B",
+    name:"DHT Blocker with Biotin", brand:"HealthKart HK Vitals · 60 tablets",
+    why:"A hair-fall formula with biotin and herbal DHT blockers. For heavy hair loss, see a dermatologist. Tell your doctor you take biotin before any blood test — it can affect some results.",
+    who:"Hair fall concerns", use:"As per label",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/healthkart-hk-vitals-dht-blocker-with-biotin/SP-98260?navKey=VRNT-182962" },
+      { label:"Buy on Amazon", url:"" }
+    ]
+  },
+  {
+    id:"ashwagandha", cat:"health", tag:"Health", art:"bottle", tone:"#6E6A4E",
+    name:"Ashwagandha Plus", brand:"HealthKart HK Vitals · 60 tablets",
+    why:"May help with stress and sleep during hard training weeks. Skip it if pregnant, and ask a doctor first if you take thyroid or other medicine.",
+    who:"Stress, poor sleep", use:"As per label, usually at night",
+    links:[
+      { label:"Buy on HealthKart", url:"https://www.healthkart.com/sv/healthkart-hk-vitals-ashwagandha-plus/SP-40851?navKey=VRNT-74580" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   {
     id:"vitamin-d", cat:"health", tag:"Health", art:"bottle", tone:"#C08A3E",
     name:"Vitamin D3", brand:"[Brand]",
     why:"Many people run low, especially with little time in the sun. A blood test tells you if you really need it.",
     who:"Low sun exposure", use:"As per label or your doctor’s advice, with a meal",
-    links:{ brand:"", amazon:"", flipkart:"" }
-  },
-  {
-    id:"zinc", cat:"health", tag:"Health", art:"bottle", tone:"#7D7468",
-    name:"Zinc", brand:"[Brand]",
-    why:"Supports immunity and recovery when you train hard and sweat a lot. More isn’t better — stick to the label dose.",
-    who:"Heavy training, high sweat", use:"As per label, after a meal",
-    links:{ brand:"", amazon:"", flipkart:"" }
-  },
-  {
-    id:"biotin", cat:"health", tag:"Health", art:"bottle", tone:"#9C7B6B",
-    name:"Biotin", brand:"[Brand]",
-    why:"For hair and nail support. Tell your doctor you take it before any blood test — it can affect some results.",
-    who:"Hair and nail concerns", use:"As per label",
-    links:{ brand:"", amazon:"", flipkart:"" }
-  },
-  {
-    id:"ashwagandha", cat:"health", tag:"Health", art:"bottle", tone:"#6E6A4E",
-    name:"Ashwagandha", brand:"[Brand]",
-    why:"May help with stress and sleep during hard training weeks. Skip it if pregnant, and ask a doctor first if you take thyroid or other medicine.",
-    who:"Stress, poor sleep", use:"As per label, usually at night",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[
+      { label:"Buy on HealthKart", url:"" },
+      { label:"Buy on Amazon", url:"" }
+    ]
   },
   /* ---------- Gear ---------- */
   {
@@ -406,33 +499,32 @@ const PRODUCTS = [
     name:"Shaker bottle", brand:"[Brand]",
     why:"Leak-proof with a mixer ball — no lumps, no gym-bag accidents.",
     who:"Everyone using protein", use:"Wash daily",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[ { label:"Buy on Amazon", url:"" } ]
   },
   {
     id:"gym-belt", cat:"gear", tag:"Gear", art:"belt", tone:"#4A3226",
     name:"Gym belt", brand:"[Brand & size]",
     why:"Supports your core on heavy squats and deadlifts. Learn to brace without it first.",
     who:"Heavy compound lifts", use:"Only on your heaviest working sets",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[ { label:"Buy on Amazon", url:"" } ]
   },
   {
     id:"wrist-support", cat:"gear", tag:"Gear", art:"wrap", tone:"#5E4A3E",
     name:"Wrist support band", brand:"[Brand]",
     why:"Keeps wrists stable on bench press, overhead press and push-ups.",
     who:"Pressing movements", use:"Wrap firmly, not so tight it cuts circulation",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[ { label:"Buy on Amazon", url:"" } ]
   },
   {
     id:"wrist-strap", cat:"gear", tag:"Gear", art:"strap", tone:"#3E3A36",
     name:"Lifting wrist strap", brand:"[Brand]",
     why:"Lets you hold heavy pulls when your grip gives out before your back does.",
     who:"Deadlifts, rows, shrugs", use:"Top sets only — keep training your grip too",
-    links:{ brand:"", amazon:"", flipkart:"" }
+    links:[ { label:"Buy on Amazon", url:"" } ]
   }
 ];
 /* ======================================== */
 
-const STORE_LABEL = { brand:"Brand site", amazon:"Amazon", flipkart:"Flipkart" };
 
 function art(kind, c){
   const ink = "var(--ink)", soft = "var(--surface)", line="var(--line)";
@@ -501,9 +593,9 @@ function art(kind, c){
 function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 function card(p){
-  const stores = Object.keys(STORE_LABEL).filter(k => p.links && p.links[k]);
-  const buttons = stores.length
-    ? `<div class="stores">${stores.map((k,i)=>`<a class="store${i===0?' main':''}" href="${esc(p.links[k])}" target="_blank" rel="sponsored noopener">Buy on ${STORE_LABEL[k]}</a>`).join("")}</div>`
+  const live = (p.links || []).filter(l => l && l.url);
+  const buttons = live.length
+    ? `<div class="stores">${live.map((l,i)=>`<a class="store${i===0?' main':''}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)}</a>`).join("")}</div>`
     : `<p class="soon">Store links coming soon — ask me in the gym.</p>`;
   return `<article class="card" id="p-${esc(p.id)}" data-cat="${esc(p.cat)}">
     <div class="art"><span class="tag">${esc(p.tag)}</span>${art(p.art, p.tone)}</div>
@@ -545,7 +637,7 @@ document.getElementById("sheetList").innerHTML = GROUPS.map(([key,label]) => {
   const items = PRODUCTS.filter(p => p.cat===key);
   if(!items.length) return "";
   return `<h3>${label.toLowerCase()}</h3><ul>${items.map(p =>
-    `<li><button class="sheet-item" type="button" data-id="${esc(p.id)}">${esc(p.name)}<small>${esc(p.who)}</small></button></li>`).join("")}</ul>`;
+    `<li><button class="sheet-item" type="button" data-id="${esc(p.id)}">${esc(p.name)}<small>${esc(p.brand.split(" · ")[0])}</small></button></li>`).join("")}</ul>`;
 }).join("");
 
 function openSheet(){
