@@ -162,6 +162,14 @@ footer .sig{font-size:2.4rem; color:var(--ink)}
 /* highlight a card reached from the product list */
 .card.flash{box-shadow:0 0 0 2px var(--ink)}
 
+/* share button on each card */
+.card .share{position:absolute; right:1rem; top:1rem; z-index:2; width:44px; height:44px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; padding:0}
+.card .art.photo .share{background:#fff; border-color:#E5DACB; color:#33241B}
+.card .share svg{width:18px; height:18px}
+.card .share:hover{border-color:var(--ink)}
+.toast{position:fixed; left:50%; bottom:calc(env(safe-area-inset-bottom,0px) + 84px); transform:translate(-50%,12px); z-index:40; background:var(--btn); color:var(--btn-ink); padding:.7rem 1.2rem; border-radius:999px; font-weight:600; font-size:.95rem; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+
 /* mobile: all-products button + sheet */
 .fab{display:none}
 @media (max-width:720px){
@@ -311,6 +319,7 @@ footer .sig{font-size:2.4rem; color:var(--ink)}
 </footer>
 
 <button class="fab" id="fab" type="button" aria-haspopup="dialog" aria-controls="sheet">All products <span class="count" id="fabCount"></span></button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="grab" aria-hidden="true"></div>
@@ -360,7 +369,7 @@ window.IMAGES = {
    Paste your own affiliate links. Leave a link "" to hide that button. */
 const COACH = {
   name: "Gavy",
-  whatsapp: "919098580009" // e.g. "919876543210" (country code + number, no +)
+  whatsapp: "" // e.g. "919876543210" (country code + number, no +)
 };
 
 /* Each product: links is a list of buttons { label, url }.
@@ -703,7 +712,7 @@ function card(p){
     ? `<div class="stores">${live.map((l,i)=>`<a class="store${i===0?' main':''}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)}</a>`).join("")}</div>`
     : `<p class="soon">Store links coming soon — ask me in the gym.</p>`;
   return `<article class="card" id="p-${esc(p.id)}" data-cat="${esc(p.cat)}">
-    <div class="art${IMAGES[p.id] ? ' photo' : ''}"><span class="tag">${esc(p.tag)}</span>${IMAGES[p.id]
+    <div class="art${IMAGES[p.id] ? ' photo' : ''}"><span class="tag">${esc(p.tag)}</span><button class="share" type="button" data-share="${esc(p.id)}" aria-label="Share ${esc(p.name)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg></button>${IMAGES[p.id]
       ? `<img src="${IMAGES[p.id]}" alt="${esc(p.name)}, ${esc(p.brand)}" loading="lazy" decoding="async" width="210" height="210">`
       : art(p.art, p.tone)}</div>
     <div class="body">
@@ -798,6 +807,60 @@ const wa = COACH.whatsapp
 const waMenu = document.getElementById("waMenu");
 if(wa){ waMenu.href = wa; waMenu.target = "_blank"; waMenu.rel = "noopener"; }
 else { waMenu.remove(); }
+
+/* ---------- product links: #product-id opens that card ---------- */
+function goToProduct(id, smooth){
+  const exists = PRODUCTS.some(p => p.id === id);
+  if(!exists) return false;
+  document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f==="all")));
+  render("all");
+  const target = document.getElementById("p-" + id);
+  if(!target) return false;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({behavior: smooth && !reduce ? "smooth" : "auto", block:"start"});
+  target.classList.add("flash");
+  setTimeout(() => target.classList.remove("flash"), 2000);
+  return true;
+}
+function openFromHash(smooth){
+  const id = decodeURIComponent(location.hash.slice(1));
+  if(id) goToProduct(id, smooth);
+}
+window.addEventListener("load", () => setTimeout(() => openFromHash(false), 60));
+window.addEventListener("hashchange", () => openFromHash(true));
+
+/* ---------- share button ---------- */
+const toast = document.getElementById("toast");
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }
+  catch(e){
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try{ ok = document.execCommand("copy"); }catch(_){}
+    ta.remove(); return ok;
+  }
+}
+grid.addEventListener("click", async e => {
+  const btn = e.target.closest(".share");
+  if(!btn) return;
+  const p = PRODUCTS.find(x => x.id === btn.dataset.share);
+  if(!p) return;
+  const url = location.origin + location.pathname + "#" + encodeURIComponent(p.id);
+  const text = `${p.name} (${p.brand.split(" · ")[0]}) — ${COACH.name}’s pick`;
+  if(navigator.share){
+    try{ await navigator.share({ title: text, text, url }); return; }
+    catch(err){ if(err && err.name === "AbortError") return; }
+  }
+  showToast(await copyText(url) ? "Link copied — paste it anywhere" : url);
+});
 </script>
 </body>
 </html>
